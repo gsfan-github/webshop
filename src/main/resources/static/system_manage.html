@@ -1,0 +1,254 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>焦距管理平台</title>
+
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap-table/css/bootstrap-table.min.css">
+
+    <link rel="stylesheet" href="css/system_manage.css">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!--<script src="bootstrap-table/js/bootstrap-table.min.js"></script>-->
+    <script src="bootstrap-table/js/bootstrap-table.min.js"></script>
+    <script src="bootstrap-table/local/bootstrap-table-zh-CN.min.js"></script>
+
+    <script src="js/system_manage.js"></script>
+    <script type="text/javascript">
+        var columns = [];
+        var config = {
+            'method': 'GET',
+            'url': '/'
+        };
+
+        $(document).ready(function () {
+            //加载footer 暂时不用
+            //$('#footer').load('footer.html');
+            //$('#addProductTypeModal').load('add_product_type.html');
+        });
+
+    </script>
+</head>
+<body>
+
+<!-- 顶部导航栏 -->
+<!--<nav class="navbar navbar-default navbar-static-top no-margin">-->
+<nav class="navbar navbar-inverse navbar-static-top no-margin">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand hidden-sm" href="http://www.bootcss.com" onclick="">焦距管理平台</a>
+        </div>
+        <div class="navbar-collapse collapse" role="navigation">
+            <ul class="nav navbar-nav navbar-right hidden-sm">
+                <li><a href="" target="_blank" onclick="">管理员登陆</a></li>
+                <li><a data-toggle="modal" data-target="#contractModal">联系我们</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- 页面主体 main -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="row-height">
+            <!-- 左侧导航栏 -->
+            <div id="sidebar" class="col-sm-2 nav-sidebar col-sm-height col-sm-top">
+                <div class="sidebar-panel">
+                    <div class="sidebar-header">
+                        <a data-toggle="collapse" data-target="#orderManage" href="#">订单管理</a>
+                    </div>
+                    <div class="sidebar-body">
+                        <ul class="collapse" id="orderManage">
+                            <li><a href="#">生产厂商管理</a></li>
+                            <li><a href="#">供货商管理</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div class="sidebar-panel">
+                    <div class="sidebar-header">
+                        <a data-toggle="collapse" data-target="#productManage" href="#">产品管理</a>
+                    </div>
+                    <div class="sidebar-body">
+                        <ul class="collapse" id="productManage">
+                            <li><a href="#">生产厂商管理</a></li>
+                            <li><a href="#">供货商管理</a></li>
+                            <li><a href="#">产品品牌管理</a></li>
+                            <li><a id="productTypeManage" href="#">产品类别管理</a></li>
+                            <li><a href="#">产品管理</a></li>
+                            <li><a href="#">产品查询</a></li>
+                            <li><a href="#">产品销量统计</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tableContainer" class="col-sm-10 col-sm-height col-sm-top">
+                <div id="tableToolbar" class="input-group"></div>
+                <table id="table"
+                       data-toggle="table"
+                       data-show-columns="true"
+                       data-search="true"
+                       data-pagination="true"
+                       data-pagination-v-align="top"
+                       data-side-pagination="server"
+                       data-toolbar="#tableToolbar"
+                       data-page-list="[20, 40, 80, 160, All]">
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- 新增产品分类 模态对话框 -->
+<div id="addProductTypeModal" class="modal fade" aria-hidden="true">
+    <!-- 通过jquery load方法加载add_product_type.html-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" style="text-align: center">新增产品类别</h4>
+            </div>
+            <div class="modal-body">
+                <input id="productParentId" type="hidden">
+                <div class="form-group input-group col-lg-10 col-lg-offset-1">
+                    <span class="input-group-addon" style="width: 100px">名称</span>
+                    <input id="productName" type="text" class="form-control" placeholder="产品名称">
+                </div>
+
+                <div class="form-group input-group col-lg-10 col-lg-offset-1">
+                    <span class="input-group-addon" style="width: 100px">备注</span>
+                    <input id="productNote" type="text" class="form-control" placeholder="备注">
+                </div>
+
+                <div class="form-group input-group col-lg-10 col-lg-offset-1">
+                    <input type="submit" class="btn btn-primary col-lg-12" value="提交" onclick="addProductType()">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- 联系方式 模态对话框 -->
+<div id="contractModal" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title" id="articleHead" style="text-align: center">联系我们</h3>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+
+                <img src="images/contact-qq.jpg"><br>
+                <h4>QQ:466933101</h4><br>
+                <h4>Tel:15885322832</h4>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var $table = $('#table');
+    $(function () {
+        $table.bootstrapTable('destroy');
+
+        $('.modal').on('show.bs.modal', function (e) { //模态对话框居中
+            // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+            $(this).css('display', 'block');
+            var modal_dialog = $(this).find('.modal-dialog');
+            var modalHeight = $(window).height() / 2 - modal_dialog.height() / 2 - 100;  //居中上移100px
+            modal_dialog.css({
+                'margin-top': modalHeight
+            });
+        });
+
+    });
+
+    $('#sidebar a').each(function () {
+        $(this).click(function () {
+            $('#tableToolbar').empty();   //清除table toolbar
+            var idName = $(this).attr("id");
+            if (idName != undefined) {
+                console.log("Id name is:" + idName);
+                $('#tableToolbar').load(idName + '.html', function () {
+                    initialize();
+                    initializeTableTitle(idName);
+                    $table.bootstrapTable('destroy');
+                    loadTableData(config.method, config.url, 1, 20);
+                });
+            } else {
+                $table.bootstrapTable('destroy');
+            }
+        });
+    });
+
+</script>
+
+</body>
+
+</html>
+
+<!--<script type="text/javascript">-->
+
+<!--/**-->
+<!--* bootstrap table 功能-->
+<!--* var hiddenRows = $table.bootstrapTable('getHiddenRows', {show: true});-->
+<!--*-->
+<!--* var data = $table.bootstrapTable('getData', {useCurrentPage: true}); //获取当前页数据-->
+<!--* var allDatas = $table.bootstrapTable('getData'); //获取表格所有数据-->
+<!--*-->
+<!--*/-->
+<!--</script>-->
+
+<!--
+<script type="text/javascript">
+    //                $table.bootstrapTable({
+    //                    columns: columns,
+    //                    onClickCell: function (row, field, value, $element) {
+    //
+    //                    },
+    //                    onPageChange: function (number, size) {
+    //                        //number 页码，size 页数据条数
+    //                        var elementNumbers = $table.bootstrapTable('getData').length;
+    //                        $table.bootstrapTable('resetView', {height: caculateTableHeight(elementNumbers, number, size)});
+    //                    }
+    //                });
+    //
+    //                $.ajax({
+    //                    'method': 'GET',
+    //                    'url': '/getScrollData?firstIndex=0&maxResult=100',
+    //                    'data': { firstIndex:0, maxResult:5 },
+    //                    'dataType': 'json',
+    //                    'async': false,
+    //                    'success': function (data, status) {
+    //                        $table.bootstrapTable('load', {data: data.datas.productTypes});
+    //                        var rowDatas = $table.bootstrapTable('getData', {useCurrentPage: true});
+    //                        var newHeight = rowDatas.length == 1 ? 190 : rowDatas.length * 40 + 130;
+    //                        $table.bootstrapTable('resetView', {height: newHeight});
+    //
+    //                        /**
+    //                         * 换页触发onPageChange事件，更新表格高度, 只有一页会失效
+    //                         * $table.bootstrapTable('nextPage');
+    //                         * $table.bootstrapTable('prevPage');
+    //                         */
+    //                    }
+    //                });
+</script>
+
+-->

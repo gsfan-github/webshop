@@ -1,0 +1,277 @@
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+
+    <!-- 地图 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <!-- 地图 -->
+
+    <title>焦距管理平台主界面</title>
+
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="../js/jquery-3.2.1.min.js"></script>
+
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <script src="../bootstrap-table/js/bootstrap-table.min.js"></script>
+
+    <link rel="stylesheet" href="../bootstrap-table/css/bootstrap-table.min.css">
+    <script src="../bootstrap-table/js/bootstrap-table.min.js"></script>
+    <script src="../bootstrap-table/local/bootstrap-table-zh-CN.min.js"></script>
+
+    <!-- 地图 -->
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+    <script src="http://cache.amap.com/lbs/static/es5.min.js"></script>
+    <script type="text/javascript"
+            src="http://webapi.amap.com/maps?v=1.3&key=3b05c693a6d9eccd674138e43cbc9e45&plugin=AMap.ToolBar"></script>
+    <!-- 地图 -->
+
+
+    <link rel="stylesheet" href="../css/system_manage.css">
+
+    <script src="../js/system_manage.js"></script>
+    <script type="text/javascript">
+        var columns = [];
+        var config = {
+            'method': 'GET',
+            'url': '/'
+        };
+
+        //        $(document).ready(function () {
+        //            //加载footer 暂时不用
+        //            //$('#footer').load('footer.html');
+        //            $('#addProductTypeModal').load('add_product_type.html');
+        //
+        //        });
+
+    </script>
+</head>
+<body>
+
+<!-- 顶部导航栏 -->
+<!--<nav class="navbar navbar-default navbar-static-top no-margin">-->
+<nav class="navbar navbar-inverse navbar-static-top no-margin">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand hidden-sm" href="http://www.bootcss.com" onclick="">焦距管理平台</a>
+        </div>
+        <div class="navbar-collapse collapse" role="navigation">
+            <ul class="nav navbar-nav navbar-right hidden-sm">
+                <li><a href="" target="_blank" onclick="">管理员登陆</a></li>
+                <li><a data-toggle="modal" data-target="#contractModal">联系我们</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- 页面主体 main -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="row-height">
+            <!-- 左侧导航栏 -->
+            <!--<div id="sidebar" class="col-sm-2 nav-sidebar col-sm-height col-sm-top">-->
+                <!--<div class="sidebar-panel">-->
+                    <!--<div class="sidebar-header">-->
+                        <!--<a data-toggle="collapse" data-target="#orderManage" href="#">订单管理</a>-->
+                    <!--</div>-->
+                    <!--<div class="sidebar-body">-->
+                        <!--<ul class="collapse" id="orderManage">-->
+                            <!--<li><a href="#">生产厂商管理</a></li>-->
+                            <!--<li><a href="#">供货商管理</a></li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+
+                <!--<div class="sidebar-panel">-->
+                    <!--<div class="sidebar-header">-->
+                        <!--<a data-toggle="collapse" data-target="#productManage" href="#">产品管理</a>-->
+                    <!--</div>-->
+                    <!--<div class="sidebar-body">-->
+                        <!--<ul class="collapse" id="productManage">-->
+                            <!--<li><a href="#">生产厂商管理</a></li>-->
+                            <!--<li><a href="#">供货商管理</a></li>-->
+                            <!--<li><a href="#">产品品牌管理</a></li>-->
+                            <!--<li><a id="productTypeManage" href="#">产品类别管理</a></li>-->
+                            <!--<li><a href="#">产品管理</a></li>-->
+                            <!--<li><a href="#">产品查询</a></li>-->
+                            <!--<li><a href="#">产品销量统计</a></li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <div id="tableContainer" class="col-sm-10 col-sm-height col-sm-top">
+                <div id="container" class="map" tabindex="0"></div>
+                <!--<div id="tableToolbar" class="input-group"></div>-->
+                <!--<table id="table"-->
+                <!--data-toggle="table"-->
+                <!--data-show-columns="true"-->
+                <!--data-search="true"-->
+                <!--data-pagination="true"-->
+                <!--data-pagination-v-align="top"-->
+                <!--data-side-pagination="server"-->
+                <!--data-toolbar="#tableToolbar"-->
+                <!--data-page-list="[20, 40, 80, 160, All]">-->
+                <!--</table>-->
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+
+<div id="addProductTypeModal" class="modal fade" aria-hidden="true">
+    <!-- 通过jquery load方法加载add_product_type.html-->
+</div>
+
+
+<script type="text/javascript">
+
+    var $table = $('#table');
+    $(function () {
+        $table.bootstrapTable('destroy');
+    });
+
+    $('#sidebar a').each(function () {
+        $(this).click(function () {
+            $('#tableToolbar').empty();   //清除table toolbar
+            var idName = $(this).attr("id");
+            if (idName != undefined) {
+                console.log("Id name is:" + idName);
+                $('#tableToolbar').load(idName + '.html', function() {
+                    initialize();
+                    initializeTableTitle(idName);
+                    $table.bootstrapTable('destroy');
+                    loadTableData(config.method, config.url, 1, 20);
+                });    //清除table toolbar
+            } else {
+                $table.bootstrapTable('destroy');
+            }
+        });
+    });
+
+</script>
+
+<script type="text/javascript">
+    var map = new AMap.Map('container', {
+        resizeEnable: true,
+        center: [116.408075, 39.950187]
+    });
+    var features = [];
+    features.push("bg");
+    features.push("road");
+    map.setFeatures(features);
+
+
+    //缩放工具条
+    var toolBar = new AMap.ToolBar({
+        visible: false
+    });
+
+    toolBar.hide();
+    toolBar.hideDirection();
+    toolBar.hideRuler();
+
+    map.addControl(toolBar);
+
+
+    AMap.service('AMap.DistrictSearch', function() {
+        var opts = {
+            subdistrict: 1,   //返回下一级行政区
+            extensions: 'all',  //返回行政区边界坐标组等具体信息
+            level: 'city'  //查询行政级别为 市
+        };
+        //实例化DistrictSearch
+        district = new AMap.DistrictSearch(opts);
+        district.setLevel('district');
+        //行政区查询
+        district.search('中国', function(status, result) {
+            var bounds = result.districtList[0].boundaries;
+            var polygons = [];
+            if (bounds) {
+                for (var i = 0, l = bounds.length; i < l; i++) {
+                    //生成行政区划polygon
+                    var polygon = new AMap.Polygon({
+                        map: map,
+                        strokeWeight: 1,
+                        path: bounds[i],
+                        fillOpacity: 0.9,
+                        fillColor: '#0099CC',
+                        strokeColor: '#CC66CC'
+                    });
+                    polygons.push(polygon);
+                }
+                map.setFitView();//地图自适应
+            }
+        });
+    });
+
+    //    map.setMapStyle("dark");
+    map.setMapStyle("blue_night");
+
+</script>
+
+</body>
+
+
+<script type="text/javascript">
+
+    /**
+     * bootstrap table 功能
+     * var hiddenRows = $table.bootstrapTable('getHiddenRows', {show: true});
+     *
+     * var data = $table.bootstrapTable('getData', {useCurrentPage: true}); //获取当前页数据
+     * var allDatas = $table.bootstrapTable('getData'); //获取表格所有数据
+     *
+     */
+</script>
+</html>
+
+<!--
+<script type="text/javascript">
+    //                $table.bootstrapTable({
+    //                    columns: columns,
+    //                    onClickCell: function (row, field, value, $element) {
+    //
+    //                    },
+    //                    onPageChange: function (number, size) {
+    //                        //number 页码，size 页数据条数
+    //                        var elementNumbers = $table.bootstrapTable('getData').length;
+    //                        $table.bootstrapTable('resetView', {height: caculateTableHeight(elementNumbers, number, size)});
+    //                    }
+    //                });
+    //
+    //                $.ajax({
+    //                    'method': 'GET',
+    //                    'url': '/getScrollData?firstIndex=0&maxResult=100',
+    //                    'data': { firstIndex:0, maxResult:5 },
+    //                    'dataType': 'json',
+    //                    'async': false,
+    //                    'success': function (data, status) {
+    //                        $table.bootstrapTable('load', {data: data.datas.productTypes});
+    //                        var rowDatas = $table.bootstrapTable('getData', {useCurrentPage: true});
+    //                        var newHeight = rowDatas.length == 1 ? 190 : rowDatas.length * 40 + 130;
+    //                        $table.bootstrapTable('resetView', {height: newHeight});
+    //
+    //                        /**
+    //                         * 换页触发onPageChange事件，更新表格高度, 只有一页会失效
+    //                         * $table.bootstrapTable('nextPage');
+    //                         * $table.bootstrapTable('prevPage');
+    //                         */
+    //                    }
+    //                });
+</script>
+
+-->
