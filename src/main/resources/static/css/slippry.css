@@ -1,0 +1,19 @@
+.slider-detils {
+    position: absolute;
+    right: 2em;
+    top: 25%;
+    text-align:right;
+}
+
+.slide-btn{
+    color: #08080B;
+    border: 1px solid #ECECEC;
+    padding: 0.6em 1.8em;
+    display: inline-block;
+    margin: 4em 0 0 0;
+    font-size: 0.875em;
+    transition:0.5s all;
+    -webkit-transition:0.5s all;
+    -moz-transition:0.5s all;
+    -o-transition:0.5s all;
+}
